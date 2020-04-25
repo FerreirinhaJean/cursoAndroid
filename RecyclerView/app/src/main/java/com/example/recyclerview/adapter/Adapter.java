@@ -13,6 +13,7 @@ import com.example.recyclerview.model.Filme;
 
 import java.util.List;
 
+//Adapter herda RecyclerView.Adapter passando a class MyviewHolder
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     private List<Filme> listaFilmes;
@@ -24,7 +25,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+        //infla o layout adapter_lista para criação
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista, parent, false);
 
         return new MyViewHolder(itemLista);
@@ -44,6 +45,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         return listaFilmes.size();
     }
 
+
+    //criar class MyViewHolder que herda RecyclerView.ViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView titulo, ano, genero;
