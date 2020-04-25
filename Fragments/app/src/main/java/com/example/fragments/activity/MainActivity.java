@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         //configura objeto para o fragmento
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.frameConteudo, conversasFragment);
-        transaction.commit();
+        transaction.add(R.id.frameConteudo, conversasFragment); //adiciona o fragment conversar na view frameConteudo
+        transaction.commit();//comita as alterações do fragment
 
 
         btnContatos.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 contatosFragment = new ContatosFragment();
                 FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-                transaction1.replace(R.id.frameConteudo, contatosFragment);
+                transaction1.replace(R.id.frameConteudo, contatosFragment);//replace no frgment contatos na view frameConteudo
                 transaction1.commit();
             }
         });
