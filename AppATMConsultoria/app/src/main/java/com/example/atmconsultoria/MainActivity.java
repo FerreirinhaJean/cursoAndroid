@@ -1,5 +1,7 @@
 package com.example.atmconsultoria;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                enviarEmail();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -51,6 +52,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
+    public void enviarEmail() {
+        //Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:51921498755")); //abre para ligação com numero informado
+        // Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.guiadasemana.com.br/contentFiles/image/2018/10/FEA/galeria/39210_w840h525_1540306449praia-de-itaguare-bertioga-shutterstockk2.jpg")); //abre link da imagem no navegador
+        // Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/place/Bar+do+gordo/@-29.6156226,-52.194969,17z/data=!3m1!4b1!4m5!3m4!1s0x951c90023f1b939d:0x12d1edb13bc6c9e4!8m2!3d-29.6156273!4d-52.1927803")); //abre google maps com link da localização
+
+        //Configura envio de email
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"atendimento@atmconsultoria.com.br"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "contato pelo App");
+        intent.putExtra(Intent.EXTRA_TEXT, "Mensagem automática");
+
+        intent.setType("message/rfc822");
+
+        startActivity(Intent.createChooser(intent, "Compartilhar"));
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
