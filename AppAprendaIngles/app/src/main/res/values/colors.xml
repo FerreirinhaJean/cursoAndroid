@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#7E5640</color>
+    <color name="colorPrimaryDark">#FF614131</color>
+    <color name="colorAccent">#A06451</color>
+    <color name="cor_fundo_fragment_bichos">#F4E8B8</color>
+</resources>

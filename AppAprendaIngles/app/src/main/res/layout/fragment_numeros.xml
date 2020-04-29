@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/segundo_fundo"
+    tools:context=".fragment.NumerosFragment">
+
+    <ImageView
+        android:id="@+id/imgUm"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/um"
+        app:layout_constraintBottom_toTopOf="@+id/imgTres"
+        app:layout_constraintEnd_toStartOf="@+id/imgDois"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgDois"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/dois"
+        app:layout_constraintBottom_toTopOf="@+id/imgQuatro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgUm"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgTres"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/tres"
+        app:layout_constraintBottom_toTopOf="@+id/imgCinco"
+        app:layout_constraintEnd_toStartOf="@+id/imgQuatro"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgUm" />
+
+    <ImageView
+        android:id="@+id/imgQuatro"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/quatro"
+        app:layout_constraintBottom_toTopOf="@+id/imgSeis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgTres"
+        app:layout_constraintTop_toBottomOf="@+id/imgDois" />
+
+    <ImageView
+        android:id="@+id/imgCinco"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/cinco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgSeis"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgTres" />
+
+    <ImageView
+        android:id="@+id/imgSeis"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/seis"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgCinco"
+        app:layout_constraintTop_toBottomOf="@+id/imgQuatro" />
+</androidx.constraintlayout.widget.ConstraintLayout>
