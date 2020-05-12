@@ -1,13 +1,17 @@
-package com.example.organizzeclone;
+package com.example.organizzeclone.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.organizzeclone.R;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
 public class MainActivity extends IntroActivity {
+
+    private Button btnCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,24 @@ public class MainActivity extends IntroActivity {
         addSlide(new FragmentSlide.Builder()
                 .background(android.R.color.white)
                 .fragment(R.layout.intro_4)
-                .canGoForward(false)
                 .build()
         );
+
+        addSlide(new FragmentSlide.Builder()
+                .background(android.R.color.white)
+                .fragment(R.layout.intro_cadastro)
+                .build()
+        );
+
     }
+
+
+    public void btnEntrar(View v) {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    public void btnCadastrar(View v) {
+        startActivity(new Intent(MainActivity.this, CadastroActivity.class));
+    }
+
 }
