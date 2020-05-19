@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.organizzeclone.R;
 import com.example.organizzeclone.config.ConfiguracaoFireBase;
+import com.example.organizzeclone.helper.Base64Custom;
 import com.example.organizzeclone.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -63,7 +64,7 @@ public class CadastroActivity extends AppCompatActivity {
         });
     }
 
-    public void cadastrarUsuario(Usuario usuario) {
+    public void cadastrarUsuario(final Usuario usuario) {
 
         autenticacao = ConfiguracaoFireBase.getFireBaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
@@ -72,7 +73,10 @@ public class CadastroActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário!", Toast.LENGTH_SHORT).show();
+
+                    String idUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+                    usuario.setIdUsuario(idUsuario);
+                    usuario.salvar();
                     finish();
                 } else {
                     String excecao = "";

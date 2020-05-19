@@ -1,10 +1,17 @@
 package com.example.organizzeclone.model;
 
+import com.example.organizzeclone.config.ConfiguracaoFireBase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+
 public class Usuario {
 
+    private String idUsuario;
     private String nome;
     private String email;
     private String senha;
+    private Double receitaTotal = 0.0;
+    private Double despesaTotal = 0.0;
 
     public Usuario() {
 
@@ -19,6 +26,31 @@ public class Usuario {
     public Usuario(String email, String senha) {
         this.email = email;
         this.senha = senha;
+    }
+
+    public Double getReceitaTotal() {
+        return receitaTotal;
+    }
+
+    public void setReceitaTotal(Double receitaTotal) {
+        this.receitaTotal = receitaTotal;
+    }
+
+    public Double getDespesaTotal() {
+        return despesaTotal;
+    }
+
+    public void setDespesaTotal(Double despesaTotal) {
+        this.despesaTotal = despesaTotal;
+    }
+
+    @Exclude
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNome() {
@@ -37,6 +69,7 @@ public class Usuario {
         this.email = email;
     }
 
+    @Exclude
     public String getSenha() {
         return senha;
     }
@@ -44,4 +77,11 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public void salvar() {
+        DatabaseReference reference = ConfiguracaoFireBase.getFireBase();
+        reference.child("usuarios").child(idUsuario).setValue(this);
+    }
+
+
 }
