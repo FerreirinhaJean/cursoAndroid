@@ -10,7 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -67,21 +68,21 @@
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_despesa"
-            android:onClick="adicionarDespesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="adicionarDespesa"
             app:fab_colorNormal="@color/colorPrimaryDespesa"
-            android:src="@drawable/ic_adicionar"
+            app:srcCompat="@drawable/ic_adicionar"
             fab:fab_label="Despesa"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_receita"
             android:layout_width="wrap_content"
-            android:onClick="adicionarReceita"
             android:layout_height="wrap_content"
+            android:onClick="adicionarReceita"
             app:fab_colorNormal="@color/colorPrimaryReceita"
-            android:src="@drawable/ic_adicionar"
+            app:srcCompat="@drawable/ic_adicionar"
             fab:fab_label="Receita"
             fab:fab_size="mini" />
 
