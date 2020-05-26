@@ -12,5 +12,7 @@
     <color name="colorPrimaryReceita">#00d39e</color>
     <color name="colorPrimaryDarkReceita">#00be8b</color>
     <color name="colorAccentReceita">#00d39e</color>
+    <color name="valor_adapter">#00D39E</color>
+    <color name="categoria_adapter">#696969</color>
 
 </resources>
