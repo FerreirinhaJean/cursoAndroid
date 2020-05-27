@@ -1,5 +1,6 @@
 package com.example.organizzeclone.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,10 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,7 +59,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private DatabaseReference movimentacaoRef;
     private String mesAnoSelecionado;
-    ;
+    private Movimentacao movimentacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,7 @@ public class PrincipalActivity extends AppCompatActivity {
         tvSaudacao = findViewById(R.id.tvSaudacao);
         recyclerMovimentos = findViewById(R.id.recyclerMovimentos);
         configuraCalendarView();
+        swipe();
 
         //configura adapter
         adapterMovimentacao = new adapterMovimentacao(lstMovimentacoes, this);
@@ -82,8 +87,86 @@ public class PrincipalActivity extends AppCompatActivity {
         recyclerMovimentos.setAdapter(adapterMovimentacao);
 
 
+    }
+
+    public void swipe() {
+        ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+
+                int dragFlags = ItemTouchHelper.ACTION_STATE_IDLE;
+                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+                return makeMovementFlags(dragFlags, swipeFlags);
+
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                excluirMovimentacao(viewHolder);
+            }
+        };
+
+        new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerMovimentos);
+    }
+
+    public void excluirMovimentacao(final RecyclerView.ViewHolder viewHolder) {
+
+        AlertDialog.Builder alerBuilder = new AlertDialog.Builder(this);
+        alerBuilder.setTitle("Excluir Movimentação da Conta");
+        alerBuilder.setMessage("Você tem certeza que deseja realmente excluir a movimentação da conta?");
+        alerBuilder.setCancelable(false);
+
+        alerBuilder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int position = viewHolder.getAdapterPosition();
+                movimentacao = lstMovimentacoes.get(position);
+
+                String idUsuario = autenticacao.getCurrentUser().getEmail();
+
+                movimentacaoRef = reference.child("movimentacao").child(Base64Custom.codificarBase64(idUsuario))
+                        .child(mesAnoSelecionado);
+
+                movimentacaoRef.child(movimentacao.getKey()).removeValue();
+                adapterMovimentacao.notifyItemRemoved(position);
+                atualizarSaldo();
+            }
+        });
+
+        alerBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(PrincipalActivity.this, "Cancelado", Toast.LENGTH_SHORT).show();
+                adapterMovimentacao.notifyDataSetChanged();
+            }
+        });
+
+        AlertDialog alert = alerBuilder.create();
+        alert.show();
 
     }
+
+    public void atualizarSaldo() {
+
+        String idUsuario = autenticacao.getCurrentUser().getEmail();
+        referenceUsuario = reference.child("usuarios").child(Base64Custom.codificarBase64(idUsuario));
+
+        if (movimentacao.getTipo().equals("r")) {
+            receitaTotal -= movimentacao.getValor();
+            referenceUsuario.child("receitaTotal").setValue(receitaTotal);
+        }
+        if (movimentacao.getTipo().equals("d")) {
+            despesaTotal -= movimentacao.getValor();
+            referenceUsuario.child("despesaTotal").setValue(despesaTotal);
+        }
+    }
+
 
     public void recuperarMovimentacoes() {
         String idUsuario = autenticacao.getCurrentUser().getEmail();
@@ -91,7 +174,6 @@ public class PrincipalActivity extends AppCompatActivity {
         movimentacaoRef = reference.child("movimentacao").child(Base64Custom.codificarBase64(idUsuario))
                 .child(mesAnoSelecionado);
 
-        Log.i("MESANO",mesAnoSelecionado);
 
         valueEventListenerMovimentacoes = movimentacaoRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -101,11 +183,9 @@ public class PrincipalActivity extends AppCompatActivity {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
                     Movimentacao movimentacao = dados.getValue(Movimentacao.class);
-                    Log.i("Movimentacao", movimentacao.getDescricao());
+                    movimentacao.setKey(dados.getKey());
                     lstMovimentacoes.add(movimentacao);
-
                 }
-
                 adapterMovimentacao.notifyDataSetChanged();
             }
 
